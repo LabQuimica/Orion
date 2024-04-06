@@ -1,11 +1,13 @@
 "use client";
 import {
+  IconSparkles,
   IconAtom,
   IconUsers,
   IconFridge,
   IconBook,
   IconFlask,
   IconVolcano,
+  IconCalendarMonth,
 } from "@tabler/icons-react";
 import SidebarItem from "./item";
 
@@ -23,8 +25,8 @@ interface ISubItem {
 
 const items: ISidebarItem[] = [
   {
-    name: "Home",
-    icon: IconAtom,
+    name: "Principal",
+    icon: IconSparkles,
     path: "/dashboard",
   },
   {
@@ -62,13 +64,24 @@ const items: ISidebarItem[] = [
     icon: IconUsers,
     path: "/dashboard/usuarios",
   },
+  {
+    name: "Calendario",
+    icon: IconCalendarMonth,
+    path: "/dashboard/calendario",
+    items: [
+      {
+        name: "Mayo",
+        path: "/dashboard/calendario/mayo",
+      },
+    ],
+  },
 ];
 
 export default function Sidebar() {
   return (
     <div className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-10 p-4">
       <div className="flex justify-between items-center h-10">
-        <IconAtom size={60} stroke={1.5} />
+        <IconSparkles size={60} stroke={1.5} />
         <p className="text-3xl pr-10 ">Orion</p>
       </div>
       <div className="flex flex-col mt-5 space-y-10 w-full">

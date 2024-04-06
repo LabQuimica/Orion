@@ -11,7 +11,7 @@ const config: Config = {
       colors: {
         sidebar: {
           active: "#fff",
-          background: "#28272C",
+          background: "#282828",
           iconColor: "#636c80",
         },
       },
