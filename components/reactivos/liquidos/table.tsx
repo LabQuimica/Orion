@@ -14,6 +14,9 @@ export default async function LiquidosTabla() {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
+              ID
+            </th>
+            <th scope="col" className="px-6 py-3">
               Número CAS
             </th>
             <th scope="col" className="px-6 py-3">
@@ -61,6 +64,7 @@ export default async function LiquidosTabla() {
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 key={item.id_reactivos}
               >
+                <td>{item.id_reactivos}</td>
                 <td>{item.num_cas}</td>
                 <td>{item.nombre}</td>
                 <td>{item.formula}</td>

@@ -1,101 +1,170 @@
-import supabase from "../../../supabaseClient";
 import { useEffect, useState } from "react";
+import React from "react";
+import { fetchReactivosLiquidos } from "./fetchReactivosLiquidos";
 import {
   createColumnHelper,
   getCoreRowModel,
   useReactTable,
   flexRender,
 } from "@tanstack/react-table";
-import React from "react";
-import { fetchReactivosLiquidos } from "./fetchReactivosLiquidos";
 
-type Reactivos = {
+/*
+Ejemplo de datos que se obtienen de la base de datos:
+
+id_reactivos: 'd22cebad-8c25-43dc-9eac-4c24a4e30099',
+num_cas: 'CCA0',
+nombre: 'Agua',
+formula: 'H20',
+marca: 'Generico',
+cantidad: 2,
+ubicacion: {
+  Nivel: 1,
+  Estado: 'Abierto',
+  Mueble: 'Estante',
+  Numero: null,
+  Estante: 1,
+  id_ubicacion: 'EA11'
+},
+contenedor: 'Vidrio',
+observaciones: 'esta rota la tapa'
+},*/
+
+// Definición de los tipos de datos que se obtienen de la base de datos
+type ReactivosLiquidos = {
   id_reactivos: string;
+  num_cas: string;
   nombre: string;
-  ubicacion: string;
+  formula: string;
+  marca: string;
+  cantidad: number;
+  ubicacion: {
+    Nivel: number;
+    Estado: string;
+    Mueble: string;
+    Numero: number | null;
+    Estante: number;
+    id_ubicacion: string;
+  };
+  contenedor: string;
+  observaciones: string | null;
 };
 
-const columnHelper = createColumnHelper<Reactivos>();
+// Creación de las columnas
+const columnHelper = createColumnHelper<ReactivosLiquidos>();
 
 const Prueba = () => {
-  const [smoothies, setSmoothies] = useState<any>(null);
+  const [data, setdata] = useState<any>(null);
   useEffect(() => {
-    const getSmoothies = async () => {
-      const data = await fetchReactivosLiquidos();
+    const getdata = async () => {
+      // Se obtienen los datos de la base de datos
+      const valores = await fetchReactivosLiquidos();
 
-      // Aplana la lista
-      const flattenedData = data!.map((item) => {
-        const { ubicacion, ...rest } = item;
-        return { ...rest, ...ubicacion };
-      });
-
-      setSmoothies(flattenedData);
+      setdata(valores);
     };
-    getSmoothies();
+    getdata();
   }, []);
-
+  // Se definen las columnas y los valores que se mostrarán en la tabla
   const columns = [
     columnHelper.accessor("id_reactivos", {
       header: "ids",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("num_cas", {
+      header: "Num Cas",
       cell: (info) => info.renderValue(),
     }),
     columnHelper.accessor("nombre", {
       header: "Nombre",
       cell: (info) => info.renderValue(),
     }),
-    columnHelper.accessor("ubicacion", {
-      header: "Ubicacion",
+    columnHelper.accessor("formula", {
+      header: "Formula",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("marca", {
+      header: "Marca",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("cantidad", {
+      header: "Cantidad",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("ubicacion.id_ubicacion", {
+      header: "Id",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("ubicacion.Nivel", {
+      header: "Nivel",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("ubicacion.Estado", {
+      header: "Estado",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("ubicacion.Mueble", {
+      header: "Mueble",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("ubicacion.Numero", {
+      header: "Numero",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("ubicacion.Estante", {
+      header: "Estante",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("contenedor", {
+      header: "Contenedor",
+      cell: (info) => info.renderValue(),
+    }),
+    columnHelper.accessor("observaciones", {
+      header: "Observaciones",
       cell: (info) => info.renderValue(),
     }),
   ];
 
-  console.log(smoothies);
+  console.log(data);
 
+  // Se crea la tabla
   const table = useReactTable({
-    data: smoothies,
+    data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
   return (
-    <div>
-      {smoothies ? (
-        <table>
-          <thead>
-            {
-              <div>
-                {table.getHeaderGroups().map((headerGroup, index) => (
-                  <tr key={index}>
-                    {headerGroup.headers.map((header, index) => (
-                      <th key={index}>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </th>
-                    ))}
-                  </tr>
+    <div >
+      { /* Se crean los encabezados */}
+      {data ? (
+        <table className="w-full my-0 align-middle text-dark border-neutral-200">
+          <thead className="align-bottom">
+            {table.getHeaderGroups().map((headerGroup, index) => (
+              <tr key={index} className="font-semibold text-[0.95rem] text-secondary-dark">
+                {headerGroup.headers.map((header, index) => (
+                  <th key={index} className="pb-3 text-start">
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </th>
                 ))}
-              </div>
-            }
+              </tr>
+            ))}
           </thead>
+          {/* Se ponen los valores */}
           <tbody>
-            {
-              <div>
-                {table.getRowModel().rows.map((row) => (
-                  <tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
-                      <td>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </td>
-                    ))}
-                  </tr>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id} className="border-b border-dashed last:border-b-0">
+                {row.getVisibleCells().map((cell) => (
+                  <td className="p-3 pl-0">
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext()
+                    )}
+                  </td>
                 ))}
-              </div>
-            }
+              </tr>
+            ))}
           </tbody>
         </table>
       ) : (
