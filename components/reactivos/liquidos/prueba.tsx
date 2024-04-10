@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
   flexRender,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 
 import { IconEdit, IconTrash } from "@tabler/icons-react";
@@ -170,11 +171,19 @@ const Prueba = () => {
 
   console.log(data);
 
+  const [filtering, setFiltering] = useState(""); /* Para filtrar los datos */
+
   // Se crea la tabla
   const table = useReactTable({
     data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+
+    getFilteredRowModel: getFilteredRowModel(), //Filtracion start
+    state: {
+      globalFilter: filtering,
+    },
+    onGlobalFilterChange: setFiltering, //Filtracion end
   });
 
   return (
