@@ -8,6 +8,11 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 
+import { IconEdit, IconTrash } from "@tabler/icons-react";
+
+import { Stack, IconButton } from "@mui/joy";
+import ReactivosComponent from "./modal-edit-item";
+
 /*
 Ejemplo de datos que se obtienen de la base de datos:
 
@@ -47,6 +52,7 @@ type ReactivosLiquidos = {
   };
   contenedor: string;
   observaciones: string | null;
+  Acciones: string;
 };
 
 // Creación de las columnas
@@ -64,6 +70,10 @@ const Prueba = () => {
     getdata();
   }, []);
   // Se definen las columnas y los valores que se mostrarán en la tabla
+  interface RowData {
+    original: any; // Reemplaza 'any' con el tipo real de tus datos
+  }
+
   const columns = [
     columnHelper.accessor("id_reactivos", {
       header: "ids",
@@ -121,6 +131,41 @@ const Prueba = () => {
       header: "Observaciones",
       cell: (info) => info.renderValue(),
     }),
+    columnHelper.accessor("Acciones", {
+      header: () => <p className="text-center"> Acciones </p>,
+      cell: ({ row }) => {
+        const [isOpen, setIsOpen] = React.useState(false);
+
+        const handleOpenModal = () => {
+          setIsOpen(true);
+        };
+
+        const handleCloseModal = () => {
+          setIsOpen(false);
+        };
+
+        return (
+          <Stack className="justify-center gap-4" direction={"row"}>
+            <IconButton
+              onClick={handleOpenModal}
+              color="success"
+              variant="plain"
+            >
+              <IconEdit />
+            </IconButton>
+            {isOpen && (
+              <ReactivosComponent
+                resultado={row.original}
+                onClose={handleCloseModal}
+              />
+            )}
+            <IconButton color="danger" variant="plain">
+              <IconTrash />
+            </IconButton>
+          </Stack>
+        );
+      },
+    }),
   ];
 
   console.log(data);
@@ -133,13 +178,16 @@ const Prueba = () => {
   });
 
   return (
-    <div >
-      { /* Se crean los encabezados */}
+    <div>
+      {/* Se crean los encabezados */}
       {data ? (
         <table className="w-full my-0 align-middle text-dark border-neutral-200">
           <thead className="align-bottom">
             {table.getHeaderGroups().map((headerGroup, index) => (
-              <tr key={index} className="font-semibold text-[0.95rem] text-secondary-dark">
+              <tr
+                key={index}
+                className="font-semibold text-[0.95rem] text-secondary-dark"
+              >
                 {headerGroup.headers.map((header, index) => (
                   <th key={index} className="pb-3 text-start">
                     {flexRender(
@@ -154,13 +202,13 @@ const Prueba = () => {
           {/* Se ponen los valores */}
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="border-b border-dashed last:border-b-0">
+              <tr
+                key={row.id}
+                className="border-b border-dashed last:border-b-0"
+              >
                 {row.getVisibleCells().map((cell) => (
                   <td className="p-3 pl-0">
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
               </tr>
