@@ -188,6 +188,23 @@ const Prueba = () => {
 
   return (
     <div>
+      {/* Entrada para realizar la filtracion de los datos*/}
+      <input
+        type="text"
+        size={30}
+        value={filtering}
+        onChange={(e) => setFiltering(e.target.value)}
+        placeholder="  Buscar (entre todas las columnas)"
+      />
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="25"
+        height="25"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      ></svg>
+
       {/* Se crean los encabezados */}
       {data ? (
         <table className="w-full my-0 align-middle text-dark border-neutral-200">
