@@ -41,7 +41,7 @@ interface ReactivosComponentProps {
   onUpdate: (updatedData: any) => void; //
 }
 
-const ReactivosComponent = ({
+const ModalUpdate = ({
   resultado,
   onClose,
   onUpdate,
@@ -245,4 +245,4 @@ const ReactivosComponent = ({
   );
 };
 
-export default ReactivosComponent;
+export default ModalUpdate;

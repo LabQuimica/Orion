@@ -7,12 +7,22 @@ import {
   useReactTable,
   flexRender,
   getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 
-import { IconEdit, IconTrash, IconSearch } from "@tabler/icons-react";
+import {
+  IconEdit,
+  IconTrash,
+  IconSearch,
+  IconCornerRightUp,
+  IconCornerRightDown,
+} from "@tabler/icons-react";
+import { Stack, IconButton, Table, Input, Button } from "@mui/joy";
 
-import { Stack, IconButton, Table, Input } from "@mui/joy";
 import ReactivosComponent from "./modal-edit-item";
+import ModalUpdate from "./modal-edit-item";
+import ModalDeleateRL from "./modal-deleate-item";
 
 /*
 Ejemplo de datos que se obtienen de la base de datos:
@@ -155,6 +165,7 @@ const Prueba = () => {
       header: () => <p className="text-center"> Acciones </p>,
       cell: ({ row }) => {
         const [isOpen, setIsOpen] = React.useState(false);
+        const [isOpenDelete, setIsOpenDelete] = React.useState(false);
 
         const handleOpenModal = () => {
           setIsOpen(true);
@@ -162,6 +173,15 @@ const Prueba = () => {
 
         const handleCloseModal = () => {
           setIsOpen(false);
+          handleModalClose();
+        };
+
+        const handleOpenModalDelete = () => {
+          setIsOpenDelete(true);
+        };
+
+        const handleCloseModalDelete = () => {
+          setIsOpenDelete(false);
           handleModalClose();
         };
 
@@ -175,14 +195,24 @@ const Prueba = () => {
               <IconEdit />
             </IconButton>
             {isOpen && (
-              <ReactivosComponent
+              <ModalUpdate
                 resultado={row.original}
                 onClose={handleCloseModal}
                 onUpdate={handleUpdateData} // Pasar la función de actualización
               />
             )}
-            <IconButton color="danger" variant="plain">
+            <IconButton
+              color="danger"
+              variant="plain"
+              onClick={handleOpenModalDelete}
+            >
               <IconTrash />
+              {isOpenDelete && (
+                <ModalDeleateRL
+                  resultado={row.original.id_reactivos}
+                  onClose={handleCloseModalDelete}
+                />
+              )}
             </IconButton>
           </Stack>
         );
@@ -191,74 +221,128 @@ const Prueba = () => {
   ];
 
   console.log(data);
+  type ColumnSort = {
+    id: string;
+    desc: boolean;
+  };
+  type SortingState = ColumnSort[];
 
   const [filtering, setFiltering] = useState(""); /* Para filtrar los datos */
+  const [sorting, setsorting] = useState<SortingState>(
+    []
+  ); /* Para filtrar los datos */
 
   // Se crea la tabla
   const table = useReactTable({
     data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-
+    getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(), //Filtracion start
+    getSortedRowModel: getSortedRowModel(),
     state: {
       globalFilter: filtering,
+      sorting,
     },
     onGlobalFilterChange: setFiltering, //Filtracion end
+    onSortingChange: setsorting,
   });
 
   return (
     <div>
       {/* Entrada para realizar la filtracion de los datos*/}
-      <Input
-        startDecorator={<IconSearch />}
-        type="text"
-        value={filtering}
-        onChange={(e) => setFiltering(e.target.value)}
-        placeholder="  Buscar (entre todas las columnas)"
-        color="success"
-        className="m-5"
-      />
+      <div className="flex m-4 gap-2 ">
+        <Input
+          startDecorator={<IconSearch />}
+          type="text"
+          value={filtering}
+          onChange={(e) => setFiltering(e.target.value)}
+          placeholder="  Buscar (entre todas las columnas)"
+          sx={{
+            "--Input-focusedInset": "var(--any, )",
+            "--Input-focusedThickness": "0.25rem",
+            "--Input-focusedHighlight": "rgba(13,110,253,.25)",
+            "&::before": {
+              transition: "box-shadow .15s ease-in-out",
+            },
+            "&:focus-within": {
+              borderColor: "#86b7fe",
+            },
+          }}
+        />
+        <Button> Agregar Reactivo</Button>
+      </div>
 
       {/* Se crean los encabezados */}
       {data ? (
-        <Table
-          hoverRow
-          className="w-full my-0 align-middle text-dark border-neutral-200"
-        >
-          <thead className="align-bottom">
-            {table.getHeaderGroups().map((headerGroup, index) => (
-              <tr
-                key={index}
-                className="font-semibold text-[0.95rem] text-secondary-dark"
-              >
-                {headerGroup.headers.map((header, index) => (
-                  <th key={index} className="pb-3 text-start">
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          {/* Se ponen los valores */}
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className="border-b border-dashed last:border-b-0"
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td className="p-3 pl-0">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <>
+          <Table
+            hoverRow
+            className="w-full my-0 align-middle text-dark border-neutral-200"
+          >
+            <thead className="align-bottom">
+              {table.getHeaderGroups().map((headerGroup, index) => (
+                <tr
+                  key={index}
+                  className="font-semibold text-[0.95rem] text-secondary-dark"
+                >
+                  {headerGroup.headers.map((header, index) => (
+                    <th
+                      key={index}
+                      className=" pb-3 text-start"
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+
+                      {
+                        { asc: "🔼", desc: "🔽" }[
+                          header.column.getIsSorted() ?? ""
+                        ]
+                      }
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            {/* Se ponen los valores */}
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className="border-b border-dashed last:border-b-0"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td className="p-3 pl-0">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <div className="flex justify-center gap-4 mt-8">
+            <Button onClick={() => table.setPageIndex(0)}>
+              Primera Página
+            </Button>
+            <Button variant="outlined" onClick={() => table.previousPage()}>
+              Página Anterior
+            </Button>
+            <Button variant="outlined" onClick={() => table.nextPage()}>
+              Página Siguiente
+            </Button>
+            <Button
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            >
+              Última Página
+            </Button>
+          </div>
+        </>
       ) : (
         <p>Cargando...</p>
       )}
