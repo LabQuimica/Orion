@@ -9,9 +9,9 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconEdit, IconTrash, IconSearch } from "@tabler/icons-react";
 
-import { Stack, IconButton } from "@mui/joy";
+import { Stack, IconButton, Table, Input } from "@mui/joy";
 import ReactivosComponent from "./modal-edit-item";
 
 /*
@@ -60,19 +60,38 @@ type ReactivosLiquidos = {
 const columnHelper = createColumnHelper<ReactivosLiquidos>();
 
 const Prueba = () => {
-  const [data, setdata] = useState<any>(null);
+  const [data, setData] = useState<any>(null);
+  const [shouldUpdate, setShouldUpdate] = useState(false); // Estado para controlar la actualización
+
   useEffect(() => {
     const getdata = async () => {
-      // Se obtienen los datos de la base de datos
       const valores = await fetchReactivosLiquidos();
-
-      setdata(valores);
+      setData(valores);
+      setShouldUpdate(false);
     };
     getdata();
-  }, []);
-  // Se definen las columnas y los valores que se mostrarán en la tabla
+  }, [shouldUpdate]);
+
+  const handleUpdateData = async (updatedData: any) => {
+    // Actualizar los datos localmente
+    const updatedDataIndex = data.findIndex(
+      (item: any) => item.id_reactivos === updatedData.id_reactivos
+    );
+    const newData = [...data];
+    newData[updatedDataIndex] = updatedData;
+    setData(newData);
+
+    // Activar la actualización de la tabla
+    setShouldUpdate(true);
+  };
+
+  const handleModalClose = () => {
+    // Al cerrar el modal, activar la actualización
+    setShouldUpdate(true);
+  };
+
   interface RowData {
-    original: any; // Reemplaza 'any' con el tipo real de tus datos
+    original: any;
   }
 
   const columns = [
@@ -143,6 +162,7 @@ const Prueba = () => {
 
         const handleCloseModal = () => {
           setIsOpen(false);
+          handleModalClose();
         };
 
         return (
@@ -158,6 +178,7 @@ const Prueba = () => {
               <ReactivosComponent
                 resultado={row.original}
                 onClose={handleCloseModal}
+                onUpdate={handleUpdateData} // Pasar la función de actualización
               />
             )}
             <IconButton color="danger" variant="plain">
@@ -189,25 +210,22 @@ const Prueba = () => {
   return (
     <div>
       {/* Entrada para realizar la filtracion de los datos*/}
-      <input
+      <Input
+        startDecorator={<IconSearch />}
         type="text"
-        size={30}
         value={filtering}
         onChange={(e) => setFiltering(e.target.value)}
         placeholder="  Buscar (entre todas las columnas)"
+        color="success"
+        className="m-5"
       />
-
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="25"
-        height="25"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      ></svg>
 
       {/* Se crean los encabezados */}
       {data ? (
-        <table className="w-full my-0 align-middle text-dark border-neutral-200">
+        <Table
+          hoverRow
+          className="w-full my-0 align-middle text-dark border-neutral-200"
+        >
           <thead className="align-bottom">
             {table.getHeaderGroups().map((headerGroup, index) => (
               <tr
@@ -240,7 +258,7 @@ const Prueba = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       ) : (
         <p>Cargando...</p>
       )}
