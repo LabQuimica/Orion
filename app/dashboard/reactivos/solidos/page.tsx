@@ -1,20 +1,25 @@
 "use client"
 import { useState } from 'react';
 import {supabase}  from '../../../../supabase'; 
-// import { useClient } from '@supabase/supabase-js';
 
 
 export default function Solidos() {
-  const [formData, setFormData] = useState({
-    num_css: '',
+  // Estado inicial del formulario y los campos que se van a ingresar a la base de datos
+  const initialState = {
+    num_cas: '',
     nombre: '',
     formula: '',
     marca: '',
-    cantidad: 0,   // entero
+    cantidad: '', 
     ubicacion: '',
     contenedor: '',
     observaciones: ''
-  });
+  };
+
+  // Se inicializa el formulario como el objeto intialState
+  const [formData, setFormData] = useState(initialState);
+  // Verifica cuando se ha insertado un dato en la BD
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
@@ -26,18 +31,21 @@ export default function Solidos() {
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    try {
-      // Con esta linea se agregan los datos a la tabla
-      const { data, error } = await supabase.from('reactivos_solidos').insert([formData]);
-
-      if (error) {
-        console.error('Error al insertar:', error.message);
-      } else {
-        console.log('Registro insertado exitosamente:', data);
-        // Aquí puedes agregar cualquier lógica adicional después de la inserción exitosa
+  
+    if (!submitted) {
+      try {
+        const { data, error } = await supabase.from('reactivos_solidos').insert([formData]);
+  
+        if (error) {
+          console.error('Error al insertar:', error.message);
+        } else {
+          console.log('Registro insertado exitosamente:', data);
+          setFormData(initialState); // Reiniciar el formulario
+          setSubmitted(true);
+        }
+      } catch (error) {
+        console.log('Error al insertar ', error);
       }
-    } catch (error) {
-      console.log('Error al insertar:' {error});
     }
   };
 
@@ -45,10 +53,10 @@ export default function Solidos() {
     <div className="p-4 bg-gray-100">
       <h1 className="text-3xl font-semibold mb-4">Formulario de Productos</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="num_css" className="block">Número CSS:</label>
-          <input type="text" id="num_css" name="num_css" value={formData.num_css} onChange={handleChange} className="w-full border-gray-300 rounded-md px-4 py-2" />
-        </div>
+      <div>
+        <label htmlFor="num_css" className="block">Número CAS:</label>
+        <input type="text" id="num_css" name="num_cas" value={formData.num_cas} onChange={handleChange} className="w-full border-gray-300 rounded-md px-4 py-2" />
+      </div>
         <div>
           <label htmlFor="nombre" className="block">Nombre:</label>
           <input type="text" id="nombre" name="nombre" value={formData.nombre} onChange={handleChange} className="w-full border-gray-300 rounded-md px-4 py-2" />
@@ -66,7 +74,7 @@ export default function Solidos() {
           <input type="text" id="marca" name="marca" value={formData.marca} onChange={handleChange} className="w-full border-gray-300 rounded-md px-4 py-2" />
         </div>
         <div>
-          <label htmlFor="cantidad" className="block">Cantidad:</label>
+          <label htmlFor="cantidad" className="block">Cantidad (frascos):</label>
           <input type="text" id="cantidad" name="cantidad" value={formData.cantidad} onChange={handleChange} className="w-full border-gray-300 rounded-md px-4 py-2" />
         </div>
         <div>
@@ -85,24 +93,33 @@ export default function Solidos() {
   );
 }
 
-// export default async function Solidos(){
-//   const [formData, setFormData] = useState({
-//     num_css: '12345',
-//     nombre: 'Azufre',
-//     formula: 'Z',
-//     marca: 'Genérica',
-//     cantidad: 0,   // entero
-//     ubicacion: 'AE3',
-//     contenedor: 'Rojo',
-//     observaciones: 'Tiene rota la tapa'
-//    });
+// export default async function Solidos() {
+  
+//   try {
+//     // Insertar datos en la base de datos
+//     const { data, error } = await supabase
+//       .from('reactivos_solidos')
+//       .insert([{
+//         num_cas: '12345',
+//         nombre: 'Azufre', 
+//         formula: 'S',
+//         marca: 'Genérico',
+//         cantidad: 0,
+//         ubicacion:  'EA11',
+//         contenedor: 'Rojo',
+//         observaciones: 'Tiene rota la tapa'
+//       }])
+//       .select();
 
-//   const { data, error } = await supabase
-//   .from('reactivos_solidos')
-//   .insert([formData])
-//   .select()
+//     if (error) {
+//       throw new Error('Error al insertar datos en la base de datos');
+//     }
 
-//   return(
-//     console.log("Datos ingresados correctamente :)")
-//   )
+//     console.log("Datos ingresados correctamente :)");
+//   } catch (error) {
+//     console.error('Error:', error instanceof Error ? error.message : 'Ocurrió un error');
+//   }
+
+//   // No devuelvas console.log como un valor de retorno
+//   return null;
 // }
