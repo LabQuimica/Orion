@@ -12,8 +12,8 @@ import {
 } from "@mui/joy";
 
 import React from "react";
-import { updateRL } from "./updateRL";
-import { fetchReactivosLiquidos } from "./fetchReactivosLiquidos";
+import { updateRL } from "../fetching/updateRL";
+import { fetchReactivosLiquidos } from "../fetching/selectRL";
 
 type ReactivosLiquidos = {
   id_reactivos: string | null;

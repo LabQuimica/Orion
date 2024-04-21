@@ -1,4 +1,4 @@
-import supabase from "../../../supabaseClient";
+import supabase from "../../../../supabaseClient";
 
 export const fetchReactivosLiquidos = async () => {
   const { data, error } = await supabase

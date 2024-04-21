@@ -13,7 +13,7 @@ import {
 import { IconAlertTriangle } from "@tabler/icons-react";
 
 import React from "react";
-import { deleteRL } from "./deleateRL";
+import { deleteRL } from "../fetching/deleateRL";
 
 interface ReactivosComponentProps {
   resultado: any;

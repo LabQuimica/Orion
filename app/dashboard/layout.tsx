@@ -1,5 +1,5 @@
-import Sidebar from "@/components/sidebar";
-
+import Sidebar from "@/components/sidebar/sidebar";
+import TopMenu from "@/components/top-menu/TopMenu";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -8,12 +8,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex h-screen w-full bg-slate-200">
-          <Sidebar />
-          <div className="flex flex-col h-full w-full ml-64 p-4">
-            {children}
-          </div>
-        </div>
+        <TopMenu />
+        <Sidebar />
+        <div className="flex h-full w-full pl-5 pr-5 pb-5">{children}</div>
       </body>
     </html>
   );

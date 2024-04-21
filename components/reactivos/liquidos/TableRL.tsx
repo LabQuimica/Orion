@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import { fetchReactivosLiquidos } from "./fetchReactivosLiquidos";
+import { fetchReactivosLiquidos } from "./fetching/selectRL";
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -20,9 +20,9 @@ import {
 } from "@tabler/icons-react";
 import { Stack, IconButton, Table, Input, Button } from "@mui/joy";
 
-import ReactivosComponent from "./modal-edit-item";
-import ModalUpdate from "./modal-edit-item";
-import ModalDeleateRL from "./modal-deleate-item";
+import ReactivosComponent from "./modal/modal-edit-item";
+import ModalUpdate from "./modal/modal-edit-item";
+import ModalDeleateRL from "./modal/modal-deleate-item";
 
 /*
 Ejemplo de datos que se obtienen de la base de datos:
@@ -69,7 +69,7 @@ type ReactivosLiquidos = {
 // Creación de las columnas
 const columnHelper = createColumnHelper<ReactivosLiquidos>();
 
-const Prueba = () => {
+const TableRL = () => {
   const [data, setData] = useState<any>(null);
   const [shouldUpdate, setShouldUpdate] = useState(false); // Estado para controlar la actualización
 
@@ -228,9 +228,9 @@ const Prueba = () => {
   type SortingState = ColumnSort[];
 
   const [filtering, setFiltering] = useState(""); /* Para filtrar los datos */
-  const [sorting, setsorting] = useState<SortingState>(
-    []
-  ); /* Para filtrar los datos */
+  const [sorting, setsorting] = useState<SortingState>([
+    { id: "id_reactivos", desc: false },
+  ]);
 
   // Se crea la tabla
   const table = useReactTable({
@@ -240,114 +240,113 @@ const Prueba = () => {
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(), //Filtracion start
     getSortedRowModel: getSortedRowModel(),
+
     state: {
       globalFilter: filtering,
-      sorting,
+      sorting: sorting,
     },
     onGlobalFilterChange: setFiltering, //Filtracion end
     onSortingChange: setsorting,
   });
 
   return (
-    <div>
-      {/* Entrada para realizar la filtracion de los datos*/}
-      <div className="flex m-4 gap-2 ">
-        <Input
-          startDecorator={<IconSearch />}
-          type="text"
-          value={filtering}
-          onChange={(e) => setFiltering(e.target.value)}
-          placeholder="  Buscar (entre todas las columnas)"
-          sx={{
-            "--Input-focusedInset": "var(--any, )",
-            "--Input-focusedThickness": "0.25rem",
-            "--Input-focusedHighlight": "rgba(13,110,253,.25)",
-            "&::before": {
-              transition: "box-shadow .15s ease-in-out",
-            },
-            "&:focus-within": {
-              borderColor: "#86b7fe",
-            },
-          }}
-        />
-        <Button> Agregar Reactivo</Button>
-      </div>
-
+    <>
       {/* Se crean los encabezados */}
       {data ? (
-        <>
-          <Table
-            hoverRow
-            className="w-full my-0 align-middle text-dark border-neutral-200"
-          >
-            <thead className="align-bottom">
-              {table.getHeaderGroups().map((headerGroup, index) => (
-                <tr
-                  key={index}
-                  className="font-semibold text-[0.95rem] text-secondary-dark"
-                >
-                  {headerGroup.headers.map((header, index) => (
-                    <th
-                      key={index}
-                      className=" pb-3 text-start"
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-
-                      {
-                        { asc: "🔼", desc: "🔽" }[
-                          header.column.getIsSorted() ?? ""
-                        ]
-                      }
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            {/* Se ponen los valores */}
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className="border-b border-dashed last:border-b-0"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td className="p-3 pl-0">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <div className="flex justify-center gap-4 mt-8">
-            <Button onClick={() => table.setPageIndex(0)}>
-              Primera Página
-            </Button>
-            <Button variant="outlined" onClick={() => table.previousPage()}>
-              Página Anterior
-            </Button>
-            <Button variant="outlined" onClick={() => table.nextPage()}>
-              Página Siguiente
-            </Button>
-            <Button
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            >
-              Última Página
-            </Button>
+        <main className="pt-5">
+          <div className="-mt-[3.5rem] ml-28 font-bold max-w-[200px] text-center">
+            Reactivos Liquidos
           </div>
-        </>
+          <div>
+            {/* Entrada para realizar la filtracion de los datos*/}
+            <div className="flex m-4 gap-2 justify-between">
+              <div className="relative">
+                <IconSearch className="absolute -top-1 left-0 ml-3 mt-3" />
+                <input
+                  type="text"
+                  className="2xl:w-96 xl:w-80 md:w-72 sm:w-60 p-2 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  value={filtering}
+                  onChange={(e) => setFiltering(e.target.value)}
+                  placeholder="  Buscar (entre todas las columnas)"
+                />
+              </div>
+
+              <Button> Agregar Reactivo</Button>
+            </div>
+
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  {table.getHeaderGroups().map((headerGroup, index) => (
+                    <tr
+                      key={index}
+                      className="font-semibold text-[0.95rem] text-secondary-dark"
+                    >
+                      {headerGroup.headers.map((header, index) => (
+                        <th
+                          key={index}
+                          className="px-6 py-3 text-center align-middle"
+                          onClick={header.column.getToggleSortingHandler()}
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+
+                          {
+                            { asc: "🠉", desc: "🠋" }[
+                              header.column.getIsSorted() ?? ""
+                            ]
+                          }
+                        </th>
+                      ))}
+                    </tr>
+                  ))}
+                </thead>
+                {/* Se ponen los valores */}
+                <tbody>
+                  {table.getRowModel().rows.map((row) => (
+                    <tr
+                      key={row.id}
+                      className="bg-white border-b dark:bg-[#1F1F1F] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <td className="p-3 pl-0 text-center align-middle">
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="flex justify-center gap-4 mt-8">
+              <Button onClick={() => table.setPageIndex(0)}>
+                Primera Página
+              </Button>
+              <Button variant="outlined" onClick={() => table.previousPage()}>
+                Página Anterior
+              </Button>
+              <Button variant="outlined" onClick={() => table.nextPage()}>
+                Página Siguiente
+              </Button>
+              <Button
+                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              >
+                Última Página
+              </Button>
+            </div>
+          </div>
+        </main>
       ) : (
         <p>Cargando...</p>
       )}
-    </div>
+    </>
   );
 };
 
-export default Prueba;
+export default TableRL;

@@ -1,13 +1,11 @@
-"use client"
-import Prueba from "@/components/reactivos/liquidos/prueba";
-import LiquidosTabla from "@/components/reactivos/liquidos/table";
+"use client";
 import "../../../index.css";
+import TableRL from "@/components/reactivos/liquidos/TableRL";
 
 export default function Liquidos() {
   return (
-    <div>
-      <Prueba />
-      { /*<LiquidosTabla /> */}
+    <div className="w-full h-full">
+      <TableRL />
     </div>
   );
 }
