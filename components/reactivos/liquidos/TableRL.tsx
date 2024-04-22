@@ -20,9 +20,15 @@ import {
 } from "@tabler/icons-react";
 import { Stack, IconButton, Table, Input, Button } from "@mui/joy";
 
+import {
+  Modal,
+} from "@mui/material";
+
 import ReactivosComponent from "./modal/modal-edit-item";
 import ModalUpdate from "./modal/modal-edit-item";
 import ModalDeleateRL from "./modal/modal-deleate-item";
+import FormularioInsercion from "./modal/modal-insert-item";
+
 
 /*
 Ejemplo de datos que se obtienen de la base de datos:
@@ -72,7 +78,8 @@ const columnHelper = createColumnHelper<ReactivosLiquidos>();
 const TableRL = () => {
   const [data, setData] = useState<any>(null);
   const [shouldUpdate, setShouldUpdate] = useState(false); // Estado para controlar la actualización
-
+  const [openInsertForm, setOpenInsertForm] = useState(false); // Estado para controlar la apertura del formulario de inserción
+  
   useEffect(() => {
     const getdata = async () => {
       const valores = await fetchReactivosLiquidos();
@@ -98,6 +105,15 @@ const TableRL = () => {
   const handleModalClose = () => {
     // Al cerrar el modal, activar la actualización
     setShouldUpdate(true);
+  };
+
+  const handleOpenInsertForm = () => {
+    setOpenInsertForm(true);
+  };
+
+  const handleCloseInsertForm = () => {
+    setOpenInsertForm(false);
+    setShouldUpdate(true); // Activar la actualización de la tabla después de cerrar el formulario
   };
 
   interface RowData {
@@ -271,9 +287,17 @@ const TableRL = () => {
                 />
               </div>
 
-              <Button> Agregar Reactivo</Button>
+              <Button onClick={handleOpenInsertForm}>Agregar Reactivo</Button>
+              {openInsertForm && (
+        <Modal open={openInsertForm} onClose={handleCloseInsertForm}>
+          <FormularioInsercion onClose={handleCloseInsertForm} onInsert={function (newData: any): void {
+                  throw new Error("Function not implemented.");
+                } } />
+        </Modal>
+      )}
             </div>
 
+ 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
