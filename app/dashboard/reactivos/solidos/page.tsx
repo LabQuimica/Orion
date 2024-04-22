@@ -34,7 +34,7 @@ export default function Solidos() {
   
     if (!submitted) {
       try {
-        const { data, error } = await supabase.from('reactivos_solidos').insert([formData]);
+        const { data, error } = await supabase.from('reactivos_liquidos').insert([formData]);
   
         if (error) {
           console.error('Error al insertar:', error.message);
