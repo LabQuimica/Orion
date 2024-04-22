@@ -45,7 +45,9 @@ Puedes empezar a editar la página `app/page.tsx`. La página se acctualiza auto
 | [<img src="https://avatars.githubusercontent.com/u/124998012?v=4" width=115><br><sub>Diego Castro Elvira</sub>](https://github.com/DiegoCastr00) |  [<img src="https://avatars.githubusercontent.com/u/49892759?v=4" width=115><br><sub>Valeria Jahzeel Castañón Hernández</sub>](https://github.com/ValeriaJahzeel) |  [<img src="https://avatars.githubusercontent.com/u/125350005?v=4" width=115><br><sub>Nancy Galicia Cocoletzi</sub>](https://github.com/Nancy-07) | [<img src="https://avatars.githubusercontent.com/u/125789083?v=4" width=115><br><sub>Miguel Ángel Sánchez Zanjuampa</sub>](https://github.com/MikeszIPN) |
 | :---: | :---: | :---: |  :---: |
 
+<!--
 * Diego Castro Elvira - [DiegoCastr00](https://github.com/DiegoCastr00)
 * Valeria Jahzeel Castañón Hernández - [ValeriaJahzeel](https://github.com/ValeriaJahzeel)
 * Nancy Galicia Cocoletzi - [Nancy-07](https://github.com/Nancy-07)
 * Miguel Ángel Sánchez Zanjuampa - [MikeszIPN](https://github.com/MikeszIPN)
+ -->
