@@ -28,7 +28,6 @@ function Navbar(){
                 </div>
             ): 
 
-        
             (
                 <button onClick={() => signIn} className='bg-sky-400 px-3 py-2 rounded'>
                     Ingresar

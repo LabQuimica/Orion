@@ -3,8 +3,8 @@
 import { IconLayoutSidebarLeftExpand } from "@tabler/icons-react";
 import ThemeSwitch from "../ThemeSwitch";
 import { useUIStore } from "../sidebar/ui-store";
-import Link from 'next/link'
-import {signIn, useSession} from 'next-auth/react'
+import Link from "next/link";
+import {signIn, useSession, signOut} from 'next-auth/react';
 
 export const TopMenu = () => {
   const openSideMenu = useUIStore((state) => state.openSideMenu);
@@ -13,15 +13,16 @@ export const TopMenu = () => {
   return (
     <nav className='bg-slate-900 flex justify-between px-25 text-white items-center py-3'>
 
+      <a href={"/"} className="flex items-center space-x-3 rtl:space-x-reverse ps-4">
+        <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
+        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Orion</span>
+      </a>
 
-      <Link href="/">
-          <h1>
-              Orion
-          </h1>
-      </Link>
-
+      {/* En caso de que si exista el usuario, mostrar lo siguiente */}
       {session?.user ?(
+
         <>
+
           <div className="p-4 flex ">
             <IconLayoutSidebarLeftExpand
               className="cursor-pointer"
@@ -30,24 +31,34 @@ export const TopMenu = () => {
           </div>
 
           <div className='flex gap-x-2 items-center'>
-              <Link href="/dashboard">
-                  Holas pagina xd
-              </Link>
-              <p>{session.user.name} {session.user.email}</p>
-              <img src={session.user.image} alt="Foto de perfil" className='w-10 h-10 rounded-full cursor-pointer' />
-          </div>
+              
+            <a href={"/dashboard"} className="mr-10">
+                Dashboard
+            </a>
 
-          <div className="p-4 flex ">
-            <ThemeSwitch />
+            <p className="font-serif" >Bienvenid@! {session.user.name}</p>
+
+            <img src={session.user.image} alt="" className='w-10 h-10 rounded-full mr-4'/>
+
+            <button className='bg-sky-400 px-3 py-2 rounded' onClick={async () => {signOut({callbackUrl: "/",})}}> Cerrar sesión </button>
+
+            <div className="p-4 flex ">
+              <ThemeSwitch />
+            </div>
+
           </div>
         </>
-
       ):(
+
         <>
-          <div className='flex gap-x-2 items-center'>
-            <button onClick={() => signIn()} className='bg-sky-400 px-3 py-2 rounded'>
-                Ingresar
-            </button>
+          <div className='flex gap-x-2 items-center pe-4'>
+
+            <div className="p-4 flex ">
+              <ThemeSwitch />
+            </div>
+
+            <button className='bg-sky-400 px-3 py-2 rounded' onClick={() => signIn()}> Ingresar </button>
+
           </div>
         </>
 
