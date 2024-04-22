@@ -1,13 +1,14 @@
 <h1 align="center"> Orión </h1>
 
-<p align="left">
+<p align="center">
      <img src="https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green">
-     <img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" href="https://github.com/LabQuimica/Orion">
+     <img src="https://img.shields.io/badge/Version-1.0.0-blue.svg">
 </p>
 
+<!--- 
 ![Badge en Desarollo](https://img.shields.io/badge/STATUS-EN%20DESAROLLO-green)
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/LabQuimica/Orion)
-
+-->
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
