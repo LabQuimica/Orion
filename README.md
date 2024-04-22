@@ -1,3 +1,13 @@
+# Orión
+
+Orión es una aplicación de gestión que permite a los encargados de laboratorio mantener un registro de:
+* Reactivos
+     * Solidos
+     * Líquidos
+* Materiales de laboratorio
+* Manuales de usuario
+* Kits de materiales
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -34,3 +44,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+### Desarrolladores:
+[<img src="https://github.com/{{ValeriaJahzeel}}.png" width="60px;"/><br /><sub><a href="https://github.com/{{ValeriaJahzeel}}">{{ValeriaJahzeel}}</a></sub>](https://github.com/{{ValeriaJahzeel}}/{{ repository }})
+
+* Diego Castro Elvira - [DiegoCastr00](https://github.com/DiegoCastr00)
+* Valeria Jahzeel Castañón Hernández - [ValeriaJahzeel](https://github.com/ValeriaJahzeel)
+* Nancy Galicia Cocoletzi - [Nancy-07](https://github.com/Nancy-07)
+* Miguel Ángel Sánchez Zanjuampa - [MikeszIPN](https://github.com/MikeszIPN)
