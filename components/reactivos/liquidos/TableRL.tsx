@@ -20,15 +20,12 @@ import {
 } from "@tabler/icons-react";
 import { Stack, IconButton, Table, Input, Button } from "@mui/joy";
 
-import {
-  Modal,
-} from "@mui/material";
+import { Modal } from "@mui/material";
 
 import ReactivosComponent from "./modal/modal-edit-item";
 import ModalUpdate from "./modal/modal-edit-item";
 import ModalDeleateRL from "./modal/modal-deleate-item";
 import FormularioInsercion from "./modal/modal-insert-item";
-
 
 /*
 Ejemplo de datos que se obtienen de la base de datos:
@@ -79,7 +76,7 @@ const TableRL = () => {
   const [data, setData] = useState<any>(null);
   const [shouldUpdate, setShouldUpdate] = useState(false); // Estado para controlar la actualización
   const [openInsertForm, setOpenInsertForm] = useState(false); // Estado para controlar la apertura del formulario de inserción
-  
+
   useEffect(() => {
     const getdata = async () => {
       const valores = await fetchReactivosLiquidos();
@@ -289,63 +286,68 @@ const TableRL = () => {
 
               <Button onClick={handleOpenInsertForm}>Agregar Reactivo</Button>
               {openInsertForm && (
-        <Modal open={openInsertForm} onClose={handleCloseInsertForm}>
-          <FormularioInsercion onClose={handleCloseInsertForm} onInsert={function (newData: any): void {
-                  throw new Error("Function not implemented.");
-                } } />
-        </Modal>
-      )}
+                <Modal open={openInsertForm} onClose={handleCloseInsertForm}>
+                  <FormularioInsercion
+                    onClose={handleCloseInsertForm}
+                    onInsert={function (newData: any): void {
+                      throw new Error("Function not implemented.");
+                    }}
+                  />
+                </Modal>
+              )}
             </div>
 
- 
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-              <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  {table.getHeaderGroups().map((headerGroup, index) => (
-                    <tr
-                      key={index}
-                      className="font-semibold text-[0.95rem] text-secondary-dark"
-                    >
-                      {headerGroup.headers.map((header, index) => (
-                        <th
-                          key={index}
-                          className="px-6 py-3 text-center align-middle"
-                          onClick={header.column.getToggleSortingHandler()}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+            <div className="flex flex-col">
+              <div className="-m-1.5 overflow-x-auto">
+                <div className="p-1.5 min-w-full inline-block align-middle">
+                  <div className="overflow-hidden">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+                      <thead>
+                        {table.getHeaderGroups().map((headerGroup, index) => (
+                          <tr key={index}>
+                            {headerGroup.headers.map((header, index) => (
+                              <th
+                                key={index}
+                                className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
+                                onClick={header.column.getToggleSortingHandler()}
+                              >
+                                {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
 
-                          {
-                            { asc: "🠉", desc: "🠋" }[
-                              header.column.getIsSorted() ?? ""
-                            ]
-                          }
-                        </th>
-                      ))}
-                    </tr>
-                  ))}
-                </thead>
-                {/* Se ponen los valores */}
-                <tbody>
-                  {table.getRowModel().rows.map((row) => (
-                    <tr
-                      key={row.id}
-                      className="bg-white border-b dark:bg-[#1F1F1F] dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <td className="p-3 pl-0 text-center align-middle">
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                                {
+                                  { asc: "🠉", desc: "🠋" }[
+                                    header.column.getIsSorted() ?? ""
+                                  ]
+                                }
+                              </th>
+                            ))}
+                          </tr>
+                        ))}
+                      </thead>
+                      {/* Se ponen los valores */}
+                      <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
+                        {table.getRowModel().rows.map((row) => (
+                          <tr
+                            key={row.id}
+                            className="hover:bg-gray-100 dark:hover:bg-neutral-700"
+                          >
+                            {row.getVisibleCells().map((cell) => (
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="flex justify-center gap-4 mt-8">
