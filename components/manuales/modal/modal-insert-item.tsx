@@ -43,13 +43,28 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
     try {
       await insertRL(data); // Inserta los datos ajustados
       onInsert(data); // Actualiza la interfaz con los nuevos datos
+      showNotification("Datos insertados correctamente", "success");
+
     } catch (error) {
       console.error("Error al insertar datos:", error);
+      showNotification("Error al insertar datos. Inténtalo de nuevo.", "error");
+
     } finally {
       onClose(); // Cierra el modal
     }
   };
 
+  const showNotification = (message: string, type: string) => {
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification(message);
+    } else if ("Notification" in window && Notification.permission !== "denied") {
+      Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          new Notification(message);
+        }
+      });
+    }
+  };
   return (
     <React.Fragment>
       <Modal
