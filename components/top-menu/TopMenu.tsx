@@ -5,13 +5,14 @@ import ThemeSwitch from "../ThemeSwitch";
 import { useUIStore } from "../sidebar/ui-store";
 import { signIn, useSession, signOut } from "next-auth/react";
 import { useState } from "react";
+import Link from "next/link";
 
 const NavLinks = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="absolute right-5 mt-2 w-48 origin-top-right rounded-md bg-slate-950 py-2 space-y-3 top-12">
-      <p className="px-3 text-sm text-gray-400">{session.user.name}</p>
+    <div className="absolute right-5 z-10 mt-2 max-w-max origin-top-right rounded-md bg-gray-900 py-3 shadow-lg items-center space-y-2 overflow-hidden top-12">
+      <p className="px-3 text-sm text-gray-400">{session?.user?.name}</p>
       <p className="px-3 text-sm text-gray-400">{session?.user?.email}</p>
 
       {/* Boton para cerrar sesion */}
@@ -46,21 +47,9 @@ export const TopMenu = () => {
   const { data: session } = useSession();
 
   return (
-    // Logo
+    
+    // Barra de navegacion chida
     <nav className="bg-slate-900 flex justify-between px-25 text-white items-center py-3">
-      <a
-        href={"/"}
-        className="flex items-center space-x-3 rtl:space-x-reverse ps-4"
-      >
-        <img
-          src="https://flowbite.com/docs/images/logo.svg"
-          className="h-8"
-          alt="Flowbite Logo"
-        />
-        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-          Orion
-        </span>
-      </a>
 
       {/* En caso de que si exista el usuario, mostrar lo siguiente */}
       {session?.user ? (
@@ -72,24 +61,26 @@ export const TopMenu = () => {
             />
           </div>
 
-          <div className="flex gap-x-2 items-center">
-            <a href={"/dashboard"} className="mr-10">
-              Dashboard
-            </a>
+          {/* Logo  */}
+          <a
+            href={"/dashboard"}
+            className="flex items-center space-x-3 rtl:space-x-reverse ps-4"
+          >
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              className="h-8"
+              alt="Flowbite Logo"
+            />
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              Orion
+            </span>
+          </a>
 
-            {/* <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <Link href="#" className="block px-4 py-2 text-sm text-gray-700">Your Profile</Link>
-              <Link href="#" className="block px-4 py-2 text-sm text-gray-700">Settings</Link>
-              <Link href="#" className="block px-4 py-2 text-sm text-gray-700">Sign out</Link>
-            </div> */}
+          <div className="flex gap-x-2 items-center">
 
             {/* Boton en forma de imagen para cerrar sesion */}
             <>
               <nav className="w-1/3 justify-end flex">
-                {/* <div className="hidden w-full md:flex justify-between">
-                  <NavLinks />
-                </div> */}
-
                 <div>
                   <button onClick={toggleNavbar}>
                     {/* {isOpen ? <X /> : <Menu />} */}
@@ -115,20 +106,45 @@ export const TopMenu = () => {
             </div>
           </div>
         </>
-      ) : (
+      ) : 
+      
+
+      // En caso de que no exista el usuario...
+      (
         <>
+
+          {/* Logo  */}
+          <Link
+            href={"/"}
+            className="flex items-center space-x-3 rtl:space-x-reverse ps-4"
+          >
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              className="h-8"
+              alt="Flowbite Logo"
+            />
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              Orion
+            </span>
+          </Link>
+
+
           <div className="flex gap-x-2 items-center pe-4">
             <div className="p-4 flex ">
               <ThemeSwitch />
             </div>
 
-            <button
-              className="bg-sky-400 px-3 py-2 rounded"
-              onClick={() => signIn()}
+            <Link
+            href={"/dashboard"}
             >
-              {" "}
-              Ingresar{" "}
-            </button>
+              <button
+                className="bg-sky-400 px-3 py-2 rounded"
+                onClick={() => signIn()}
+              >
+                Ingresar
+              </button>
+            </Link>
+            
           </div>
         </>
       )}
