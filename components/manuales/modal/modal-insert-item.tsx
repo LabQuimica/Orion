@@ -21,10 +21,14 @@ interface ReactivosComponentProps {
 
 const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
   const [formData, setFormData] = useState({
-    num_serie: "",
-    nombre: "",
-    marca: "",
-    ubicacion: "",
+    codigo: "",
+    manual: "",
+    topico: "",
+    cantidad: "",
+    referencia:"",
+    presentacion:"",
+    idioma:"",
+    observaciones:""
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,49 +81,89 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
             fontWeight="lg"
             mb={1}
           >
-            Insertar material
+            Insertar manual
           </Typography>
 
           <Typography id="modal-desc" textColor="text.tertiary">
             <form onSubmit={handleSubmit}>
               <Stack spacing={2}>
                 <FormLabel>
-                  Número de serie:{" "}
+                  Código:{" "}
                   <Input
                     id="num_css"
-                    name="num_serie"
-                    value={formData.num_serie}
+                    name="codigo"
+                    value={formData.codigo}
                     className="ml-3 mt-2"
                     onChange={handleChange}
                   />{" "}
                 </FormLabel>
 
-                <FormLabel htmlFor="nombre">
-                  Nombre:{" "}
+                <FormLabel htmlFor="manual">
+                  Titulo:{" "}
                   <Input
-                    id="nombre"
-                    name="nombre"
-                    value={formData.nombre}
+                    id="manual"
+                    name="manual"
+                    value={formData.manual}
                     className="ml-3 mt-2"
                     onChange={handleChange}
                   />{" "}
                 </FormLabel>
-                <FormLabel htmlFor="marca">
-                  Marca:{" "}
+                <FormLabel htmlFor="topico">
+                  Tópico:{" "}
                   <Input
-                    id="marca"
-                    name="marca"
-                    value={formData.marca}
+                    id="topico"
+                    name="topico"
+                    value={formData.topico}
                     className="ml-3 mt-2"
                     onChange={handleChange}
                   />{" "}
                 </FormLabel>
                 <FormLabel>
-                  Ubicación:{" "}
+                  Cantidad:{" "}
                   <Input
-                    id="ubicacion"
-                    name="ubicacion"
-                    value={formData.ubicacion}
+                    id="cantidad"
+                    name="cantidad"
+                    value={formData.cantidad}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Referencia:{" "}
+                  <Input
+                    id="referencia"
+                    name="referencia"
+                    value={formData.referencia}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Presentación:{" "}
+                  <Input
+                    id="presentacion"
+                    name="presentacion"
+                    value={formData.presentacion}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Idioma:{" "}
+                  <Input
+                    id="idioma"
+                    name="idioma"
+                    value={formData.idioma}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Observaciones:{" "}
+                  <Input
+                    id="observaciones"
+                    name="observaciones"
+                    value={formData.observaciones}
                     className="ml-3 mt-2"
                     onChange={handleChange}
                   />{" "}
