@@ -235,7 +235,7 @@ const TableManuales = () => {
                 />
               </div>
 
-              <Button onClick={handleOpenInsertForm}>Agregar Material</Button>
+              <Button onClick={handleOpenInsertForm}>Agregar Manual</Button>
               {openInsertForm && (
                 <Modal open={openInsertForm} onClose={handleCloseInsertForm}>
                   <FormularioInsercion

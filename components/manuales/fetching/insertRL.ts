@@ -3,7 +3,7 @@ import supabase from "@/supabaseClient";
 
 export const insertRL = async (formData: any) => {
      const { data, error } = await supabase
-     .from('materiales')
+     .from('manuales')
      .insert([
      formData
      ])
