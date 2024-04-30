@@ -40,9 +40,14 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data: any = Object.fromEntries(formData.entries());
-    await insertRL(data);
-    onInsert(data);
-    onClose();
+    try {
+      await insertRL(data); // Inserta los datos ajustados
+      onInsert(data); // Actualiza la interfaz con los nuevos datos
+    } catch (error) {
+      console.error("Error al insertar datos:", error);
+    } finally {
+      onClose(); // Cierra el modal
+    }
   };
 
   return (
@@ -73,7 +78,7 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
             id="modal-title"
             level="h4"
             textColor="inherit"
-            ontWeight="lg"
+            fontWeight="lg"
             mb={1}
           >
             Insertar reactivo

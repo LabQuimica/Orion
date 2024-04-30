@@ -62,7 +62,7 @@ export const TopMenu = () => {
           </div>
 
           {/* Logo  */}
-          <Link
+          <a
             href={"/dashboard"}
             className="flex items-center space-x-3 rtl:space-x-reverse ps-4"
           >
@@ -74,7 +74,7 @@ export const TopMenu = () => {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Orion
             </span>
-          </Link>
+          </a>
 
           <div className="flex gap-x-2 items-center">
 
