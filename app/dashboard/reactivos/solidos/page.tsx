@@ -1,7 +1,6 @@
 "use client";
 import "../../../index.css";
-import TableRS from "@/components/reactivos/solidos/TableRL";
-
+import TableRS from "@/components/reactivos/solidos/TableRS";
 
 export default function Solidos() {
   return (

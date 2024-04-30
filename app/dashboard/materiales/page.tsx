@@ -1,7 +1,11 @@
+"use client";
+import "../../index.css";
+import TableMateriales from "@/components/materiales/TableMateriales";
+
 export default function Materiales() {
   return (
-    <div>
-      <h1>Materiales</h1>
+    <div className="w-full h-full">
+      <TableMateriales />
     </div>
   );
 }
