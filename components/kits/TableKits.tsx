@@ -319,7 +319,7 @@ const TableKits = () => {
                             className="hover:bg-gray-100 dark:hover:bg-neutral-700"
                           >
                             {row.getVisibleCells().map((cell) => (
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                              <td className="px-6 py-4 whitespace-normal text-sm font-medium text-gray-800 dark:text-neutral-200">
                                 {flexRender(
                                   cell.column.columnDef.cell,
                                   cell.getContext()
