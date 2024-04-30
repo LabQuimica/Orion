@@ -9,6 +9,7 @@ import {
   Sheet,
   FormLabel,
   Input,
+  Link,
 } from "@mui/joy";
 
 import { insertRL } from "../fetching/insertRL";
@@ -21,14 +22,16 @@ interface ReactivosComponentProps {
 
 const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
   const [formData, setFormData] = useState({
-    num_cas: "",
+    num_serie: "",
     nombre: "",
-    formula: "",
-    contenedor: "",
     marca: "",
-    cantidad: "",
     ubicacion: "",
     observaciones: "",
+    link:"",
+    caja:"",
+    cantidad_kits:"",
+    contenido:"",
+    cantidad:""
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,9 +43,14 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data: any = Object.fromEntries(formData.entries());
-    await insertRL(data);
-    onInsert(data);
-    onClose();
+    try {
+      await insertRL(data); // Inserta los datos ajustados
+      onInsert(data); // Actualiza la interfaz con los nuevos datos
+    } catch (error) {
+      console.error("Error al insertar datos:", error);
+    } finally {
+      onClose(); // Cierra el modal
+    }
   };
 
   return (
@@ -73,7 +81,7 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
             id="modal-title"
             level="h4"
             textColor="inherit"
-            ontWeight="lg"
+            fontWeight="lg"
             mb={1}
           >
             Insertar reactivo
@@ -83,11 +91,11 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
             <form onSubmit={handleSubmit}>
               <Stack spacing={2}>
                 <FormLabel>
-                  Número CAS:{" "}
+                  Número de serie:{" "}
                   <Input
                     id="num_css"
-                    name="num_cas"
-                    value={formData.num_cas}
+                    name="num_serie"
+                    value={formData.num_serie}
                     className="ml-3 mt-2"
                     onChange={handleChange}
                   />{" "}
@@ -103,43 +111,12 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
                     onChange={handleChange}
                   />{" "}
                 </FormLabel>
-
-                <FormLabel>
-                  Fórmula:{" "}
-                  <Input
-                    id="formula"
-                    name="formula"
-                    value={formData.formula}
-                    className="ml-3 mt-2"
-                    onChange={handleChange}
-                  />{" "}
-                </FormLabel>
-                <FormLabel>
-                  Contenedor:{" "}
-                  <Input
-                    id="contenedor"
-                    name="contenedor"
-                    value={formData.contenedor}
-                    onChange={handleChange}
-                    className="ml-3 mt-2"
-                  />{" "}
-                </FormLabel>
                 <FormLabel htmlFor="marca">
                   Marca:{" "}
                   <Input
                     id="marca"
                     name="marca"
                     value={formData.marca}
-                    className="ml-3 mt-2"
-                    onChange={handleChange}
-                  />{" "}
-                </FormLabel>
-                <FormLabel>
-                  Cantidad (frascos):{" "}
-                  <Input
-                    id="cantidad"
-                    name="cantidad"
-                    value={formData.cantidad}
                     className="ml-3 mt-2"
                     onChange={handleChange}
                   />{" "}
@@ -160,6 +137,56 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
                     id="observaciones"
                     name="observaciones"
                     value={formData.observaciones}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Link de la documentación:{" "}
+                  <Input
+                    id="link"
+                    name="link"
+                    value={formData.link}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />
+                </FormLabel>
+                <FormLabel>
+                  Caja:{" "}
+                  <Input
+                    id="caja"
+                    name="caja"
+                    value={formData.caja}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Cantidad de kits:{" "}
+                  <Input
+                    id="cantidad_kits"
+                    name="cantidad_kits"
+                    value={formData.cantidad_kits}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Contenido:{" "}
+                  <Input
+                    id="contenido"
+                    name="contenido"
+                    value={formData.contenido}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Cantidad:{" "}
+                  <Input
+                    id="cantidad"
+                    name="cantidad"
+                    value={formData.cantidad}
                     className="ml-3 mt-2"
                     onChange={handleChange}
                   />{" "}

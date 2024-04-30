@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Typography,
@@ -10,7 +10,6 @@ import {
   FormLabel,
   Input,
 } from "@mui/joy";
-
 import { insertRL } from "../fetching/insertRL";
 import { ModalClose } from "@mui/joy";
 
@@ -27,6 +26,10 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
     ubicacion: "",
   });
 
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastSeverity, setToastSeverity] = useState<"success" | "error">("success");
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -37,14 +40,30 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
     const formData = new FormData(event.currentTarget);
     const data: any = Object.fromEntries(formData.entries());
     try {
-      await insertRL(data); // Inserta los datos ajustados
-      onInsert(data); // Actualiza la interfaz con los nuevos datos
-    } catch (error) {
+      await insertRL(data);
+      onInsert(data);
+      setToastMessage("¡Datos insertados con éxito!");
+      setToastSeverity("success");
+      setShowToast(true);
+        } catch (error) {
       console.error("Error al insertar datos:", error);
+      setToastMessage("Error al insertar datos. Por favor, intenta de nuevo.");
+      setToastSeverity("error");
+      setShowToast(true);
     } finally {
-      onClose(); // Cierra el modal
+      onClose();
     }
   };
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (showToast) {
+      timeout = setTimeout(() => {
+        setShowToast(false);
+      }, 3000); // Oculta el toast después de 3 segundos
+    }
+    return () => clearTimeout(timeout);
+  }, [showToast]);
 
   return (
     <React.Fragment>
@@ -132,7 +151,25 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
           </Typography>
         </Sheet>
       </Modal>
+
+ {/* Toast */}
+ {showToast && (
+        <div style={{ position: "fixed", bottom: 20, right: 20 }}>
+          <div
+            style={{
+              backgroundColor: toastSeverity === "success" ? "green" : "red",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: 5,
+              boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+            }}
+          >
+            {toastMessage}
+          </div>
+        </div>
+      )}
     </React.Fragment>
   );
 };
+
 export default ExampleComponent;
