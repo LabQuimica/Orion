@@ -6,7 +6,7 @@ import { useUIStore } from "../sidebar/ui-store";
 import { signIn, useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; //#####
+// import { useRouter } from "next/navigation"; //#####
 
 const NavLinks = () => {
   const { data: session } = useSession();
@@ -34,8 +34,8 @@ const NavLinks = () => {
 
 export const TopMenu = () => {
 
-  // Enrutamiento de sesion #####
-  const router = useRouter()
+  // // Enrutamiento de sesion #####
+  // const router = useRouter()
 
   // Verifica el estado del menu (navbar en img)
   const [isOpen, setIsOpen] = useState(false);
