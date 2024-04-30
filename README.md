@@ -30,16 +30,26 @@ Crear, Leer, Actualizar y Eliminar elementos de las categorías mencionadas ante
 
 
 ## 🛠️ Abre y ejecuta el proyecto
-Primero ejecuta el siguiente comando en la consola:
+1. Ejecuta el siguiente comando en la consola:
 ```bash
 npm run dev
 ```
-Luego, ejecuta el comando para la autenticación:
+2. Ejecuta el comando para la autenticación:
 ```bash
 npm i next-auth
 ```
-Abre [http://localhost:3000](http://localhost:3000) con tu navegador preferido para ver el resultado.
-Puedes empezar a editar la página `app/page.tsx`. La página se acctualiza automáticamente conforme vayas editando el archivo.     
+3. Si te manda el siguiente error
+```bash
+"next" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+```
+ejecuta el siguiente comando en la consola:
+```bash
+npm install next
+```
+4. Eecuta los comandos en el paso 1 y 2
+5. Abre [http://localhost:3000](http://localhost:3000) con tu navegador preferido para ver el resultado.
+6. Puedes empezar a editar la página `app/page.tsx`. La página se acctualiza automáticamente conforme se vaya editando el archivo.     
 
 ## Autores
 | [<img src="https://avatars.githubusercontent.com/u/124998012?v=4" width=115><br><sub>Diego Castro Elvira</sub>](https://github.com/DiegoCastr00) |  [<img src="https://avatars.githubusercontent.com/u/49892759?v=4" width=115><br><sub>Valeria Jahzeel Castañón Hernández</sub>](https://github.com/ValeriaJahzeel) |  [<img src="https://avatars.githubusercontent.com/u/125350005?v=4" width=115><br><sub>Nancy Galicia Cocoletzi</sub>](https://github.com/Nancy-07) | [<img src="https://avatars.githubusercontent.com/u/125789083?v=4" width=115><br><sub>Miguel Ángel Sánchez Zanjuampa</sub>](https://github.com/MikeszIPN) |
