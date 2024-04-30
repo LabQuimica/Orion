@@ -114,7 +114,7 @@ export const TopMenu = () => {
         <>
 
           {/* Logo  */}
-          <Link
+          <a
             href={"/"}
             className="flex items-center space-x-3 rtl:space-x-reverse ps-4"
           >
@@ -126,7 +126,7 @@ export const TopMenu = () => {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Orion
             </span>
-          </Link>
+          </a>
 
 
           <div className="flex gap-x-2 items-center pe-4">
@@ -134,7 +134,7 @@ export const TopMenu = () => {
               <ThemeSwitch />
             </div>
 
-            <Link
+            <a
             href={"/dashboard"}
             >
               <button
@@ -143,7 +143,7 @@ export const TopMenu = () => {
               >
                 Ingresar
               </button>
-            </Link>
+            </a>
             
           </div>
         </>
