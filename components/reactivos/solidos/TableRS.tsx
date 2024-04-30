@@ -265,11 +265,11 @@ const TableRS = () => {
     <>
       {/* Se crean los encabezados */}
       {data ? (
-        <main className="pt-5">
-          <div className="-mt-[3.5rem] ml-28 font-bold max-w-[200px] text-center">
-            Reactivos Solidos
-          </div>
-          <div>
+        <main className="pt-1">
+      <div className="ml-28 font-bold max-w-[200px] text-center text-white sm:-mt-[1rem] md:-mt-[3.5rem]">
+        Reactivos Solidos
+      </div>
+        <div className="sm:pt-1 md:pt-8" >
             {/* Entrada para realizar la filtracion de los datos*/}
             <div className="flex m-4 gap-2 justify-between">
               <div className="relative">
