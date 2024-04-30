@@ -10,7 +10,7 @@ const NavLinks = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="absolute right-5 z-10 mt-2 max-w-max origin-top-right rounded-md bg-gray-900 py-3 shadow-lg items-center space-y-2 overflow-hidden">
+    <div className="absolute right-5 z-10 mt-2 max-w-max origin-top-right rounded-md bg-gray-900 py-3 shadow-lg items-center space-y-2 overflow-hidden top-12">
       <p className="px-3 text-sm text-gray-400">{session.user.name}</p>
       <p className="px-3 text-sm text-gray-400">{session?.user?.email}</p>
 
