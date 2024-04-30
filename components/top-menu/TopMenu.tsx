@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { IconLayoutSidebarLeftExpand } from "@tabler/icons-react";
 import ThemeSwitch from "../ThemeSwitch";
@@ -6,6 +6,7 @@ import { useUIStore } from "../sidebar/ui-store";
 import { signIn, useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; //#####
 
 const NavLinks = () => {
   const { data: session } = useSession();
@@ -32,6 +33,10 @@ const NavLinks = () => {
 };
 
 export const TopMenu = () => {
+
+  // Enrutamiento de sesion #####
+  const router = useRouter()
+
   // Verifica el estado del menu (navbar en img)
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,6 +50,13 @@ export const TopMenu = () => {
 
   // Verifica la sesion iniciada
   const { data: session } = useSession();
+
+  // // Redireccionamiento dependiendo del estado de la sesion #####
+  // {session?.user ? (
+  //   router.push('/dashboard')
+  // ):(
+  //   router.push('/')
+  // )}
 
   return (
     
@@ -62,7 +74,7 @@ export const TopMenu = () => {
           </div>
 
           {/* Logo  */}
-          <a
+          <Link
             href={"/dashboard"}
             className="flex items-center space-x-3 rtl:space-x-reverse ps-4"
           >
@@ -74,7 +86,7 @@ export const TopMenu = () => {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Orion
             </span>
-          </a>
+          </Link>
 
           <div className="flex gap-x-2 items-center">
 
@@ -83,7 +95,6 @@ export const TopMenu = () => {
               <nav className="w-1/3 justify-end flex">
                 <div>
                   <button onClick={toggleNavbar}>
-                    {/* {isOpen ? <X /> : <Menu />} */}
                     <img
                       src={session.user.image ?? ""}
                       alt=""
@@ -134,16 +145,18 @@ export const TopMenu = () => {
               <ThemeSwitch />
             </div>
 
-            <Link
-            href={"/dashboard"}
-            >
+            <Link href={"/dashboard"}>
               <button
                 className="bg-sky-400 px-3 py-2 rounded"
-                onClick={() => signIn()}
+              //   onClick={() => {
+              //     router.push('/dashboard');
+              //     signIn();
+              //   }}
               >
                 Ingresar
               </button>
             </Link>
+            
             
           </div>
         </>
