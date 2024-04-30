@@ -9,6 +9,8 @@ import {
   Sheet,
   FormLabel,
   Input,
+  Snackbar,
+  Alert,
 } from "@mui/joy";
 
 import { insertRL } from "../fetching/insertRL";
@@ -21,29 +23,42 @@ interface ReactivosComponentProps {
 
 const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
   const [formData, setFormData] = useState({
+    // Estado inicial del formulario
+    id_reactivos: "",
     num_cas: "",
     nombre: "",
     formula: "",
-    contenedor: "",
     marca: "",
     cantidad: "",
     ubicacion: "",
+    contenedor: "",
     observaciones: "",
   });
 
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Maneja el cambio en los campos del formulario
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    // Maneja el envío del formulario
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data: any = Object.fromEntries(formData.entries());
-    await insertRL(data);
-    onInsert(data);
-    onClose();
+
+    try {
+      await insertRL(data); // Inserta los datos ajustados
+      onInsert(data); // Actualiza la interfaz con los nuevos datos
+    } catch (error) {
+      console.error("Error al insertar datos:", error);
+    } finally {
+      onClose(); // Cierra el modal
+    }
   };
+
+
 
   return (
     <React.Fragment>
@@ -73,10 +88,10 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
             id="modal-title"
             level="h4"
             textColor="inherit"
-            ontWeight="lg"
+            fontWeight="lg"
             mb={1}
           >
-            Insertar reactivo
+            Insertar reactivo sólido
           </Typography>
 
           <Typography id="modal-desc" textColor="text.tertiary">
@@ -172,6 +187,8 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
           </Typography>
         </Sheet>
       </Modal>
+      {/* Snackbar para mostrar mensaje de éxito */}
+     
     </React.Fragment>
   );
 };
