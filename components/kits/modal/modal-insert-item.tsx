@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Modal,
   Typography,
@@ -9,7 +9,9 @@ import {
   Sheet,
   FormLabel,
   Input,
+  Link,
 } from "@mui/joy";
+
 import { insertRL } from "../fetching/insertRL";
 import { ModalClose } from "@mui/joy";
 
@@ -24,11 +26,13 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
     nombre: "",
     marca: "",
     ubicacion: "",
+    observaciones: "",
+    link:"",
+    caja:"",
+    cantidad_kits:"",
+    contenido:"",
+    cantidad:""
   });
-
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastSeverity, setToastSeverity] = useState<"success" | "error">("success");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -40,30 +44,14 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
     const formData = new FormData(event.currentTarget);
     const data: any = Object.fromEntries(formData.entries());
     try {
-      await insertRL(data);
-      onInsert(data);
-      setToastMessage("¡Datos insertados con éxito!");
-      setToastSeverity("success");
-      setShowToast(true);
-        } catch (error) {
+      await insertRL(data); // Inserta los datos ajustados
+      onInsert(data); // Actualiza la interfaz con los nuevos datos
+    } catch (error) {
       console.error("Error al insertar datos:", error);
-      setToastMessage("Error al insertar datos. Por favor, intenta de nuevo.");
-      setToastSeverity("error");
-      setShowToast(true);
     } finally {
-      onClose();
+      onClose(); // Cierra el modal
     }
   };
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    if (showToast) {
-      timeout = setTimeout(() => {
-        setShowToast(false);
-      }, 3000); // Oculta el toast después de 3 segundos
-    }
-    return () => clearTimeout(timeout);
-  }, [showToast]);
 
   return (
     <React.Fragment>
@@ -96,7 +84,7 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
             fontWeight="lg"
             mb={1}
           >
-            Insertar material
+            Insertar reactivo
           </Typography>
 
           <Typography id="modal-desc" textColor="text.tertiary">
@@ -143,6 +131,66 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
                     onChange={handleChange}
                   />{" "}
                 </FormLabel>
+                <FormLabel>
+                  Observaciones:{" "}
+                  <Input
+                    id="observaciones"
+                    name="observaciones"
+                    value={formData.observaciones}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Link de la documentación:{" "}
+                  <Input
+                    id="link"
+                    name="link"
+                    value={formData.link}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />
+                </FormLabel>
+                <FormLabel>
+                  Caja:{" "}
+                  <Input
+                    id="caja"
+                    name="caja"
+                    value={formData.caja}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Cantidad de kits:{" "}
+                  <Input
+                    id="cantidad_kits"
+                    name="cantidad_kits"
+                    value={formData.cantidad_kits}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Contenido:{" "}
+                  <Input
+                    id="contenido"
+                    name="contenido"
+                    value={formData.contenido}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
+                <FormLabel>
+                  Cantidad:{" "}
+                  <Input
+                    id="cantidad"
+                    name="cantidad"
+                    value={formData.cantidad}
+                    className="ml-3 mt-2"
+                    onChange={handleChange}
+                  />{" "}
+                </FormLabel>
                 <Button type="submit" fullWidth>
                   Insertar reactivo
                 </Button>
@@ -151,25 +199,7 @@ const ExampleComponent = ({ onClose, onInsert }: ReactivosComponentProps) => {
           </Typography>
         </Sheet>
       </Modal>
-
- {/* Toast */}
- {showToast && (
-        <div style={{ position: "fixed", bottom: 20, right: 20 }}>
-          <div
-            style={{
-              backgroundColor: toastSeverity === "success" ? "green" : "red",
-              color: "white",
-              padding: "10px 20px",
-              borderRadius: 5,
-              boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-            }}
-          >
-            {toastMessage}
-          </div>
-        </div>
-      )}
     </React.Fragment>
   );
 };
-
 export default ExampleComponent;
